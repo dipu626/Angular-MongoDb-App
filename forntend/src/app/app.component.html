@@ -1,7 +1,7 @@
-<div class="container">
+<!-- <div class="container">
   <h3 class="d-flex justify-content-center">Angular 12 Front-End</h3>
 
-  <nav class="navbar navbar-expand-sm bg-light navbar-dark">
+  <nav class="navbar navbar-expand-sm bg-body-tertiary">
     <ul class="navbar-nav">
       <li class="navbar-item">
         <button routerLink="home" class="m-1 btn btn-light btn-outline-primary">Home</button>
@@ -15,6 +15,23 @@
         <button routerLink="employee" class="m-1 btn btn-light btn-outline-primary">Employee</button>
       </li>
     </ul>
+  </nav>
+</div> -->
+<div class="container">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="home">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" routerLink="department">Department</a>
+          <a class="nav-link" routerLink="employee">Employee</a>
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </div>
+      </div>
+    </div>
   </nav>
 </div>
 
