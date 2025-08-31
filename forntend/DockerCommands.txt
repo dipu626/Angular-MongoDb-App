@@ -1,0 +1,18 @@
+1. Build the Docker Image
+  docker build -t my-angular-app .
+
+  a) -t my-angular-app gives the image a name.
+  b) . tells Docker to use the current directory as context.
+
+2. Run the Container
+  docker run -d -p 8080:80 --name angular-container my-angular-app
+
+  a) -p 8080:80 maps container port 80 (Nginx) to host port 8080
+  b) -d runs it in detached mode.
+  c) --name angular-container names the container.
+
+3. Rebuild After Changes
+  docker build -t my-angular-app .
+  docker stop angular-container
+  docker rm angular-container
+  docker run -d -p 8080:80 --name angular-container my-angular-app

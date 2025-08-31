@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+// import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-employee',
@@ -8,10 +7,31 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./employee.component.css'],
 })
 export class EmployeeComponent {
-  constructor(private http: HttpClient) {}
+  // constructor(private http: HttpClient) {}
+  constructor() {}
 
-  departments: any = [];
-  employees: any = [];
+  departments: any[] = [
+    { DepartmentId: 1, DepartmentName: 'HR' },
+    { DepartmentId: 2, DepartmentName: 'Finance' },
+    { DepartmentId: 3, DepartmentName: 'IT' },
+  ];
+
+  employees: any[] = [
+    {
+      EmployeeId: 1,
+      EmployeeName: 'Alice',
+      Department: 'HR',
+      DateOfJoining: '2023-02-15',
+      PhotoFileName: 'alice.jpg',
+    },
+    {
+      EmployeeId: 2,
+      EmployeeName: 'Bob',
+      Department: 'Finance',
+      DateOfJoining: '2022-11-10',
+      PhotoFileName: 'bob.jpg',
+    },
+  ];
 
   modalTitle = '';
   EmployeeId = 0;
@@ -25,22 +45,11 @@ export class EmployeeComponent {
     this.refreshList();
   }
 
-  // formatDate(date: any) {
-  //   return this.datePipe.transform(date, 'yyyy-MM-dd');
-  // }
-
   refreshList() {
-    this.http
-      .get<any>('https://localhost:7043/api/' + 'department')
-      .subscribe((data) => {
-        this.departments = data;
-      });
-
-    this.http
-      .get<any>('https://localhost:7043/api/' + 'employee')
-      .subscribe((data) => {
-        this.employees = data;
-      });
+    // Simulate API calls
+    // this.http.get<any>('https://localhost:7043/api/department').subscribe(data => this.departments = data);
+    // this.http.get<any>('https://localhost:7043/api/employee').subscribe(data => this.employees = data);
+    console.log('Departments & Employees loaded (in-memory)');
   }
 
   addClick() {
@@ -56,54 +65,49 @@ export class EmployeeComponent {
     this.modalTitle = 'Edit Employee';
     this.EmployeeId = emp.EmployeeId;
     this.EmployeeName = emp.EmployeeName;
-    this.Department = emp.department;
+    this.Department = emp.Department;
     this.DateOfJoining = emp.DateOfJoining;
-    this.PhotoFileName = 'MyPhoto.jpg';
+    this.PhotoFileName = emp.PhotoFileName || 'MyPhoto.jpg';
   }
 
   createClick() {
-    var val = {
+    const newId = this.employees.length
+      ? Math.max(...this.employees.map((e) => e.EmployeeId)) + 1
+      : 1;
+
+    this.employees.push({
+      EmployeeId: newId,
       EmployeeName: this.EmployeeName,
       Department: this.Department,
       DateOfJoining: this.DateOfJoining,
       PhotoFileName: this.PhotoFileName,
-    };
+    });
 
-    this.http
-      .post('https://localhost:7043/api/' + 'employee', val)
-      .subscribe((res) => {
-        alert(res.toString());
-        this.refreshList();
-      });
+    alert('Employee created (in-memory)');
+    this.refreshList();
   }
 
   updateClick() {
-    var val = {
-      EmployeeId: this.EmployeeId,
-      EmployeeName: this.EmployeeName,
-      Department: this.Department,
-      DateOfJoining: this.DateOfJoining,
-      PhotoFileName: this.PhotoFileName,
-    };
-
-    this.http
-      .put('https://localhost:7043/api/' + 'employee', val)
-      .subscribe((res) => {
-        alert(res.toString());
-        this.refreshList();
-      });
-  }
-
-  deleteClick(id: any) {
-    if (!confirm('Are you sure?')) {
-      return;
+    const index = this.employees.findIndex((e) => e.EmployeeId === this.EmployeeId);
+    if (index > -1) {
+      this.employees[index] = {
+        EmployeeId: this.EmployeeId,
+        EmployeeName: this.EmployeeName,
+        Department: this.Department,
+        DateOfJoining: this.DateOfJoining,
+        PhotoFileName: this.PhotoFileName,
+      };
     }
 
-    this.http
-      .delete('https://localhost:7043/api/' + 'employee/' + id)
-      .subscribe((res) => {
-        alert(res.toString());
-        this.refreshList();
-      });
+    alert('Employee updated (in-memory)');
+    this.refreshList();
+  }
+
+  deleteClick(id: number) {
+    if (!confirm('Are you sure?')) return;
+
+    this.employees = this.employees.filter((e) => e.EmployeeId !== id);
+    alert('Employee deleted (in-memory)');
+    this.refreshList();
   }
 }

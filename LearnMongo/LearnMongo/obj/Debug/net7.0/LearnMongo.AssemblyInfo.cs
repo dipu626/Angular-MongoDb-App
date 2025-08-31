@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("da996b3a-2be5-488b-a8ff-6a04c27039f0")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("LearnMongo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e768f3bcb1d7fc20019366b8cff07e40a898be23")]
 [assembly: System.Reflection.AssemblyProductAttribute("LearnMongo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LearnMongo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

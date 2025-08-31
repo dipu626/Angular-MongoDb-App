@@ -1,0 +1,54 @@
+1. Azure Deployment Steps for Dockerized Angular App
+
+## 1. Container Registry (ACR)
+- Portal → “Container registries” → Create
+- Pick your existing Resource Group
+- Name: unique, lowercase
+- SKU: Basic
+- Click Create
+
+## 2. Push your image to ACR (from your local machine)
+1. Log in to your ACR:
+   az acr login -n <acrname>
+
+2. Tag your local Docker image for ACR:
+   docker tag my-angular-app:v1 <acrname>.azurecr.io/my-angular-app:v1
+
+3. Push the image to ACR:
+   docker push <acrname>.azurecr.io/my-angular-app:v1
+
+## 3. Container Instances (ACI)
+- Portal → “Container instances” → Create
+- Resource group: your existing RG
+- Container name: my-angular-app
+- Region: same as ACR (recommended)
+- Image source: Azure Container Registry → select your ACR and image my-angular-app:v1
+- Networking: Public, set a DNS name label
+- Ports: 80
+- Review + Create → Create
+
+## 4. Access your application
+- Open in browser:
+  http://<dns-label>.<region>.azurecontainer.io
+
+
+2. Recreate the Container with a Public IP (Azure Portal)
+
+## 1. Go to Container Instances
+- Azure Portal → Container Instances → Create
+
+## 2. Configure Basics
+- Select your existing Resource Group
+- Enter a container name
+
+## 3. Configure Networking
+- Public IP address → Select Yes
+- DNS name label → Enter a unique label (e.g., myappdemo123)
+- Expose Port 80 (because your container serves Angular app via Nginx)
+
+## 4. Review and Create
+- Click Review + Create → Create
+
+## 5. Access the Application
+- After deployment, the FQDN field will show something like:
+  http://myappdemo123.eastus.azurecontainer.io

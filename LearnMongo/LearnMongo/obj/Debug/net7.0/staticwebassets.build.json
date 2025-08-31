@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "zEJD8+znKPRpGPK07N3Igi+RH4gIfOkhYvBm/c1VJJs=",
-  "Source": "LearnMongo",
-  "BasePath": "_content/LearnMongo",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"RcKyBHSgHpKmp2PtxTL/170omjSxJrMNJcyh4mTQAJ8=","Source":"LearnMongo","BasePath":"_content/LearnMongo","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

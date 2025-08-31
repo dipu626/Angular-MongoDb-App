@@ -21,7 +21,7 @@ namespace LearnMongo.Controllers
         {
             MongoClient mongoClient = new(configuration.GetConnectionString("EmployeeAppCon"));
 
-            MongoDB.Driver.Linq.IMongoQueryable<Department> dbList = mongoClient.GetDatabase("testDB").GetCollection<Department>("Department").AsQueryable();
+            var dbList = mongoClient.GetDatabase("testDB").GetCollection<Department>("Department").AsQueryable();
 
             return new JsonResult(dbList);
         }
