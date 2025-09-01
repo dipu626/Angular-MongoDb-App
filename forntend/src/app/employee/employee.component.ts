@@ -1,37 +1,18 @@
-import { Component } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css'],
 })
-export class EmployeeComponent {
-  // constructor(private http: HttpClient) {}
-  constructor() {}
-
+export class EmployeeComponent implements OnInit {
   departments: any[] = [
     { DepartmentId: 1, DepartmentName: 'HR' },
     { DepartmentId: 2, DepartmentName: 'Finance' },
     { DepartmentId: 3, DepartmentName: 'IT' },
   ];
 
-  employees: any[] = [
-    {
-      EmployeeId: 1,
-      EmployeeName: 'Alice',
-      Department: 'HR',
-      DateOfJoining: '2023-02-15',
-      PhotoFileName: 'alice.jpg',
-    },
-    {
-      EmployeeId: 2,
-      EmployeeName: 'Bob',
-      Department: 'Finance',
-      DateOfJoining: '2022-11-10',
-      PhotoFileName: 'bob.jpg',
-    },
-  ];
+  employees: any[] = [];
 
   modalTitle = '';
   EmployeeId = 0;
@@ -46,10 +27,29 @@ export class EmployeeComponent {
   }
 
   refreshList() {
-    // Simulate API calls
-    // this.http.get<any>('https://localhost:7043/api/department').subscribe(data => this.departments = data);
-    // this.http.get<any>('https://localhost:7043/api/employee').subscribe(data => this.employees = data);
-    console.log('Departments & Employees loaded (in-memory)');
+    const storedEmployees = localStorage.getItem('employees');
+    this.employees = storedEmployees ? JSON.parse(storedEmployees) : [
+      {
+        EmployeeId: 1,
+        EmployeeName: 'Alice',
+        Department: 'HR',
+        DateOfJoining: '2023-02-15',
+        PhotoFileName: 'alice.jpg',
+      },
+      {
+        EmployeeId: 2,
+        EmployeeName: 'Bob',
+        Department: 'Finance',
+        DateOfJoining: '2022-11-10',
+        PhotoFileName: 'bob.jpg',
+      },
+    ];
+
+    this.saveToLocalStorage();
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('employees', JSON.stringify(this.employees));
   }
 
   addClick() {
@@ -83,8 +83,8 @@ export class EmployeeComponent {
       PhotoFileName: this.PhotoFileName,
     });
 
-    alert('Employee created (in-memory)');
-    this.refreshList();
+    alert('Employee created');
+    this.saveToLocalStorage();
   }
 
   updateClick() {
@@ -99,15 +99,15 @@ export class EmployeeComponent {
       };
     }
 
-    alert('Employee updated (in-memory)');
-    this.refreshList();
+    alert('Employee updated');
+    this.saveToLocalStorage();
   }
 
   deleteClick(id: number) {
     if (!confirm('Are you sure?')) return;
 
     this.employees = this.employees.filter((e) => e.EmployeeId !== id);
-    alert('Employee deleted (in-memory)');
-    this.refreshList();
+    alert('Employee deleted');
+    this.saveToLocalStorage();
   }
 }

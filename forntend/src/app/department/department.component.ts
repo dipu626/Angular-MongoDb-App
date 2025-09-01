@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { environment } from 'src/environments/environment'; // Not needed now
-// import { HttpClient } from '@angular/common/http'; // Not needed now
 
 @Component({
   selector: 'app-department',
@@ -8,14 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./department.component.css'],
 })
 export class DepartmentComponent implements OnInit {
-  // constructor(private http: HttpClient) {}
-  constructor() {}
-
-  departments: any[] = [
-    { DepartmentId: 1, DepartmentName: 'HR' },
-    { DepartmentId: 2, DepartmentName: 'Finance' },
-    { DepartmentId: 3, DepartmentName: 'IT' },
-  ];
+  departments: any[] = [];
 
   modalTitle = '';
   DepartmentId = 0;
@@ -26,11 +17,22 @@ export class DepartmentComponent implements OnInit {
   }
 
   refreshList() {
-    // Simulate API refresh
-    // this.http.get<any>('https://localhost:7043/api/department').subscribe(data => {
-    //   this.departments = data;
-    // });
-    console.log('Departments loaded (in-memory):', this.departments);
+    // Load from localStorage if available
+    const storedDepartments = localStorage.getItem('departments');
+    this.departments = storedDepartments
+      ? JSON.parse(storedDepartments)
+      : [
+        { DepartmentId: 1, DepartmentName: 'HR' },
+        { DepartmentId: 2, DepartmentName: 'Finance' },
+        { DepartmentId: 3, DepartmentName: 'IT' },
+      ];
+
+    this.saveToLocalStorage();
+    console.log('Departments loaded:', this.departments);
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('departments', JSON.stringify(this.departments));
   }
 
   addClick() {
@@ -46,12 +48,6 @@ export class DepartmentComponent implements OnInit {
   }
 
   createClick() {
-    // const val = { DepartmentName: this.DepartmentName };
-    // this.http.post('https://localhost:7043/api/department', val).subscribe(res => {
-    //   alert(res.toString());
-    //   this.refreshList();
-    // });
-
     const newId = this.departments.length
       ? Math.max(...this.departments.map((d) => d.DepartmentId)) + 1
       : 1;
@@ -61,17 +57,11 @@ export class DepartmentComponent implements OnInit {
       DepartmentName: this.DepartmentName,
     });
 
-    alert('Department created (in-memory)');
-    this.refreshList();
+    alert('Department created');
+    this.saveToLocalStorage();
   }
 
   updateClick() {
-    // const val = { DepartmentId: this.DepartmentId, DepartmentName: this.DepartmentName };
-    // this.http.put('https://localhost:7043/api/department', val).subscribe(res => {
-    //   alert(res.toString());
-    //   this.refreshList();
-    // });
-
     const index = this.departments.findIndex(
       (d) => d.DepartmentId === this.DepartmentId
     );
@@ -79,8 +69,8 @@ export class DepartmentComponent implements OnInit {
       this.departments[index].DepartmentName = this.DepartmentName;
     }
 
-    alert('Department updated (in-memory)');
-    this.refreshList();
+    alert('Department updated');
+    this.saveToLocalStorage();
   }
 
   deleteClick(id: number) {
@@ -88,13 +78,8 @@ export class DepartmentComponent implements OnInit {
       return;
     }
 
-    // this.http.delete('https://localhost:7043/api/department/' + id).subscribe(res => {
-    //   alert(res.toString());
-    //   this.refreshList();
-    // });
-
     this.departments = this.departments.filter((d) => d.DepartmentId !== id);
-    alert('Department deleted (in-memory)');
-    this.refreshList();
+    alert('Department deleted');
+    this.saveToLocalStorage();
   }
 }
